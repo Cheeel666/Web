@@ -1,2 +1,10 @@
-# Web
-Repository for web labs
+# Web - лабораторные работы
+
+## Цель работы
+Разработать приложение-агрегатор, которое позволит пользователю получать информацию из различных источников в одном месте.
+
+## Перечень функциональных требований
+Разработать RestfulAPI, настроить nginx, настроить кеширование
+
+## ER-диаграмма
+![alt text](https://sun9-79.userapi.com/impg/2BjWL_lTw6KzKdKdZCz8KcedPJsmxqmk9UdbwA/HrXaSL_3w8c.jpg?size=1280x700&quality=96&sign=70183586dd968593d10a28aca95e98c8&type=album)
