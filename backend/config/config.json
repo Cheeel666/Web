@@ -1,0 +1,5 @@
+{
+    "postgresURL": "postgres://chel:chel@localhost:5432/agregator?sslmode=disable",
+    "host":"localhost",
+    "port":":5005"
+}
