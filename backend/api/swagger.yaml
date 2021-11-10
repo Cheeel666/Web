@@ -1,0 +1,493 @@
+openapi: 3.0.0
+info:
+  description: API for web labs
+  version: "1.0.0"
+  title: Agregator API
+  
+tags:
+  - name: User
+    description: Access to user data
+  - name: Courort
+    description: Access to courort data
+  - name: Comment
+    description: Access to comments data
+
+components:
+  schemas:
+    User:
+      type: array
+      items:
+        type: object
+        properties:
+          ID:
+            type: integer
+          Name:
+            type: string
+          Email:
+            type: string
+          Password:
+            type: string
+          IdRole:
+            type: integer
+          Role:
+            type: string
+    
+    AuthUser:
+      type: object
+      properties:
+        auth:
+          type: boolean
+        token:
+          type: string
+        user: 
+          type: string
+        is_admin:
+          type: string
+        email:
+          type: string
+    
+    Courorts:
+      type: array
+      items:
+        type: object
+        properties:
+          NameCourort:
+            type: string
+          City:
+            type: string
+    Courort:
+      type: array
+      items:
+        type: object
+        properties:
+          NameRoad:
+            type: string
+          TypeRoad:
+            type: string
+          WorkStatus:
+            type: integer
+    Road:
+      type: array
+      items: 
+        type: object
+        properties:
+          NameRoad:
+            type: string
+          NameCourort:
+            type: string
+    Comment:
+      type: array
+      items:
+        type: object
+        properties:
+          Username:
+            type: string
+          Context:
+            type: string
+    StatusOK:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 200
+        message:
+          type: string
+          example: StatusOK
+    BadRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 400
+        message:
+          type: string
+          example: Bad request
+    InternalServerError:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 500
+        message:
+          type: string
+          example: Internal server error
+
+paths:
+  /api/v1/user/users:
+    get:
+      tags:
+        - User
+      description: ''
+      summary: returns all users
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+  /api/v1/user:
+    post:
+      tags:
+        - User
+      description: ''
+      summary: adds user to database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+              required:
+                - username
+                - password
+                - email
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusOK'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/user/change_role/{email}:
+    patch:
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type:
+              string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type:  object
+              properties:
+                role: 
+                  type: string
+              required:
+                - role
+      description: 'change user role'
+      summary: change user role
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusOK'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/user/{email}:
+    delete:
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type:
+              string
+      description: 'Delete user'
+      summary: Delete user
+      responses:
+        '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/StatusOK'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/user/login:
+    post:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type:  object
+              properties:
+                email: 
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      description: 'authenticate'
+      summary: log into the system and get jwt token
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusOK'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/courort/courorts:
+    get:
+      tags:
+        - Courort
+      description: ''
+      summary: returns all courorts
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courorts'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/courort/roads_and_courorts:
+    get:
+      tags:
+        - Courort
+      description: ''
+      summary: returns roads and courorts for home page
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Road'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/courort/{cour}:
+    get:
+      tags:
+        - Courort
+      description: ''
+      parameters:
+        - name: cour
+          in: path
+          required: true
+          schema:
+            type:
+              string
+      summary: returns all courorts
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courort'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/comment/{cour}:
+    get:
+      tags:
+        - Comment
+      description: ''
+      parameters:
+        - name: cour
+          in: path
+          required: true
+          schema:
+            type:
+              string
+      summary: get comments for specified courort
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/comment/{text}/{email}/{id_cour}:
+    delete:
+      tags:
+        - Comment
+      description: ''
+      parameters:
+        - name: text
+          in: path
+          required: true
+          schema:
+            type:
+              string
+        - name: email
+          in: path
+          required: true
+          schema:
+            type:
+              string
+        - name: id_cour
+          in: path
+          required: true
+          schema:
+            type:
+              string
+      summary: delete comment
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusOK'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/v1/comment:
+    post:
+      tags:
+        - Comment
+      description: ''
+      summary:  add coment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                content:
+                  type: string
+                id_courort:
+                  type: integer
+              required:
+                - username
+                - password
+                
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusOK'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/BMSTU14/Web_test/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: http://localhost:5005

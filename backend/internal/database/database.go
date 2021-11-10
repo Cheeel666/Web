@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"web/config"
 	"web/internal/model"
 
@@ -158,6 +159,57 @@ func (db *DbConnection) GetCourort(courort string) ([]model.Courort, error) {
 	rows, err := db.conn.Query(
 		` select array_to_json(array_agg(lap))
 		from (select type_road, name_road, work_status from roads where id_courort = $1) lap;`, id)
+	if err != nil {
+		return res, err
+	}
+	var arrStr string
+
+	for rows.Next() {
+		rows.Scan(&arrStr)
+		json.Unmarshal([]byte(arrStr), &res)
+	}
+	return res, nil
+}
+
+// AddComment to service
+func (db *DbConnection) AddComment(com model.Comment) error {
+	row := db.conn.QueryRow(`
+	select id_user from users where email = $1
+	`, com.Email)
+	var id int
+	err := row.Scan(&id)
+	if err != nil {
+		return err
+	}
+	fmt.Println(id)
+	_, err = db.conn.Query(`insert into comment (id_user, id_courort, content, likes, visability) values ($1, $2, $3, $4, $5);`,
+		id, com.IDCourort, com.Text, 0, 0,
+	)
+	return nil
+}
+
+// DeleteComment From service
+func (db *DbConnection) DeleteComment(com model.Comment) error {
+	_, err := db.conn.Query(`delete from comment
+	where id_user = (select id_user from users where email = $1) 
+	and content = $2 and id_courort = $3;`, com.Email, com.Text, com.IDCourort)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetComments From service
+func (db *DbConnection) GetComments(com model.Comment) ([]model.Comment, error) {
+	var res []model.Comment
+	rows, err := db.conn.Query(
+		`select array_to_json(array_agg(lap))
+        from
+		(select t1.content as text, t2.email as email from comment t1
+			 join users t2 on t1.id_user = t2.id_user 
+			 where id_courort = $1) lap;`, com.IDCourort,
+	)
+
 	if err != nil {
 		return res, err
 	}

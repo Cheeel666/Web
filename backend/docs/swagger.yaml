@@ -1,0 +1,298 @@
+basePath: /api/v1
+definitions:
+  model.Comment:
+    properties:
+      email:
+        type: string
+      id_courort:
+        type: integer
+      text:
+        type: string
+    type: object
+  model.Courort:
+    properties:
+      name_road:
+        type: string
+      type_road:
+        type: string
+      work_status:
+        type: integer
+    type: object
+  model.Courorts:
+    properties:
+      city:
+        type: string
+      name_courort:
+        type: string
+    type: object
+  model.Response:
+    properties:
+      status:
+        type: string
+    type: object
+  model.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      id_role:
+        type: integer
+      password:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:5005
+info:
+  contact:
+    email: ilchel1992@gmail.com
+    name: Ilya Chelyadinov
+  description: Swagger API for Golang agregator project.
+  title: SkOpen API
+  version: "1.0"
+paths:
+  /comment/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Coments's text and IDCourort and text
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Adds comment to database
+  /comment/{cour}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: cour
+        in: path
+        name: cour
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get comment to specified courort
+  /comment/{text}/{email}/{id_cour}:
+    post:
+      parameters:
+      - description: text
+        in: path
+        name: text
+        required: true
+        type: string
+      - description: email
+        in: path
+        name: email
+        required: true
+        type: string
+      - description: id_cour
+        in: path
+        name: id_cour
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Delete specified comment
+  /courort/{cour}:
+    get:
+      parameters:
+      - description: cour
+        in: path
+        name: cour
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Courorts'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get specified courort
+  /courort/courorts:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Courorts'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: get list of courorts
+  /courort/roads_and_courorts:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Courort'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get roads and courorts with details
+  /user:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User's email and password and name
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Adds user to database
+  /user/{email}:
+    delete:
+      parameters:
+      - description: email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Delete user from database
+  /user/change_role/{email}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Changes role of user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User's email and password
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Checks if user can login
+  /user/users:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      summary: Adds user to database
+swagger: "2.0"

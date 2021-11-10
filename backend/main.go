@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"time"
 	"web/config"
 	"web/internal/auth"
@@ -12,6 +13,16 @@ import (
 )
 
 const configPath = "config/config.json"
+
+// @title SkOpen API
+// @version 1.0
+// @description Swagger API for Golang agregator project.
+
+// @contact.name Ilya Chelyadinov
+// @contact.email ilchel1992@gmail.com
+
+// @host localhost:5005
+// @BasePath /api/v1
 
 func main() {
 	cfg, err := config.ParseConfig(configPath)
@@ -33,6 +44,15 @@ func main() {
 		viper.GetDuration("auth.token_ttl")*time.Second,
 	)
 	logrus.Info("Connected to DB")
+	listenErr := make(chan error, 1)
 
-	server.SetupServer(cfg, service).Run(cfg.Port)
+	go server.SetupServer(cfg, service).Run(cfg.Port)
+	select {
+	case err = <-listenErr:
+		if err != nil {
+			logrus.Error(err)
+			os.Exit(1)
+		}
+
+	}
 }
