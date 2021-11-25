@@ -1,5 +1,6 @@
 log/
 __init__.py
+*.log
 *.txt
 /venv
 *package-lock.json
