@@ -191,8 +191,7 @@ func (db *DbConnection) AddComment(com model.Comment) error {
 // DeleteComment From service
 func (db *DbConnection) DeleteComment(com model.Comment) error {
 	_, err := db.conn.Query(`delete from comment
-	where id_user = (select id_user from users where email = $1) 
-	and content = $2 and id_courort = $3;`, com.Email, com.Text, com.IDCourort)
+	where id_comment =  $1;`, com.ID)
 	if err != nil {
 		return err
 	}

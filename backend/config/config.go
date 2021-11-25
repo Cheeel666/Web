@@ -10,6 +10,8 @@ type Config struct {
 	PostgresURL string `json:"postgresURL"`
 	Host        string `json:"host"`
 	Port        string `json:"port"`
+	PortAdaptor string `json:"portDbAdaptor"`
+	SignKey     string `json:"sign_key"`
 }
 
 // ParseConfig of service

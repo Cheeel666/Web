@@ -16,7 +16,7 @@ type Authorizer struct {
 	repo database.DbConnection
 
 	hashSalt       string
-	signingKey     []byte
+	SigningKey     []byte
 	expireDuration time.Duration
 }
 
@@ -25,7 +25,7 @@ func NewAuthorizer(repo database.DbConnection, hashSalt string, signingKey []byt
 	return &Authorizer{
 		repo:           repo,
 		hashSalt:       hashSalt,
-		signingKey:     signingKey,
+		SigningKey:     signingKey,
 		expireDuration: expireDuration,
 	}
 }
@@ -59,7 +59,29 @@ func (a *Authorizer) SignIn(ctx context.Context, user model.User) (model.User, s
 			IssuedAt:  jwt.At(time.Now()),
 		},
 		Username: user.Name,
+		Role:     user.Role,
 	})
-	str, err := token.SignedString(a.signingKey)
+
+	str, err := token.SignedString(a.SigningKey)
 	return user, str, err
+}
+
+func ParseToken(accessToken string, signingKey []byte) (bool, interface{}) {
+	fmt.Println(accessToken)
+	token, err := jwt.ParseWithClaims(accessToken, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+		return signingKey, nil
+	})
+
+	if err != nil {
+		return false, nil
+	}
+
+	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
+		return true, claims
+	}
+	// fmt.Println("Invalid token")
+	return false, nil
 }

@@ -27,13 +27,14 @@ func (srv *Service) Ping(ctx *gin.Context) {
 
 // AddUser godoc
 // @Summary Adds user to database
+// @Tags User
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 400 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param request body model.User true "User's email and password and name"
-// @Router /user [post]
+// @Router /users/ [post]
 func (srv *Service) AddUser(ctx *gin.Context) {
 	var user model.User
 	jsonData, err := ioutil.ReadAll(ctx.Request.Body)
@@ -58,15 +59,23 @@ func (srv *Service) AddUser(ctx *gin.Context) {
 
 // DeleteUser godoc
 // @Summary Delete user from database
+// @Tags User
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param email path string true "email"
-// @Router /user/{email} [delete]
+// @Router /users/{email} [delete]
 func (srv *Service) DeleteUser(ctx *gin.Context) {
+	token := ctx.GetHeader("auth")
+	key := srv.Auth.SigningKey
+	verified, err := auth.ParseToken(token, key)
+	if !verified {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid access token"})
+		return
+	}
 	var user model.User
 	user.Email = ctx.Params.ByName("email")
-	err := srv.DB.DeleteUser(user)
+	err = srv.DB.DeleteUser(user)
 	if err != nil {
 		logrus.Error(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
@@ -78,17 +87,25 @@ func (srv *Service) DeleteUser(ctx *gin.Context) {
 
 // MakeMod godoc
 // @Summary Changes role of user
+// @Tags User
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param email path string true "email"
-// @Router /user/change_role/{email} [patch]
+// @Router /users/role/{email} [patch]
 func (srv *Service) MakeMod(ctx *gin.Context) {
+	token := ctx.GetHeader("auth")
+	key := srv.Auth.SigningKey
+	verified, err := auth.ParseToken(token, key)
+	if !verified {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid access token"})
+		return
+	}
 	var user model.User
 	user.Email = ctx.Params.ByName("email")
 
-	err := srv.DB.MakeMod(user)
+	err = srv.DB.MakeMod(user)
 	if err != nil {
 		logrus.Error(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
@@ -100,11 +117,19 @@ func (srv *Service) MakeMod(ctx *gin.Context) {
 
 // GetUsers godoc
 // @Summary Adds user to database
+// @Tags User
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 500 {object} []model.User
-// @Router /user/users [get]
+// @Router /users/ [get]
 func (srv *Service) GetUsers(ctx *gin.Context) {
+	token := ctx.GetHeader("auth")
+	key := srv.Auth.SigningKey
+	verified, err := auth.ParseToken(token, key)
+	if !verified {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid access token"})
+		return
+	}
 	users, err := srv.DB.GetUsers()
 	if err != nil {
 		fmt.Println(err)
@@ -117,13 +142,14 @@ func (srv *Service) GetUsers(ctx *gin.Context) {
 
 // Login godoc
 // @Summary Checks if user can login
+// @Tags User
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} model.User
 // @Failure 400 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param request body model.User true "User's email and password"
-// @Router /user/login [post]
+// @Router /users/login [post]
 func (srv *Service) Login(ctx *gin.Context) {
 	var user model.User
 	jsonData, err := ioutil.ReadAll(ctx.Request.Body)
@@ -136,6 +162,7 @@ func (srv *Service) Login(ctx *gin.Context) {
 	}
 	// fmt.Println(user)
 	usr, token, err := srv.Auth.SignIn(ctx, user)
+
 	if err != nil {
 		logrus.Error(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal error"})
@@ -159,10 +186,11 @@ func (srv *Service) Login(ctx *gin.Context) {
 
 // GetCourorts godoc
 // @Summary get list of courorts
+// @Tags Courort
 // @Produce  json
 // @Success 200 {object} []model.Courorts
 // @Failure 500 {object} model.Response
-// @Router /courort/courorts [get]
+// @Router /courorts/ [get]
 func (srv *Service) GetCourorts(ctx *gin.Context) {
 	res, err := srv.DB.GetCourorts()
 	if err != nil {
@@ -175,10 +203,11 @@ func (srv *Service) GetCourorts(ctx *gin.Context) {
 
 // GetRoadsAndCourorts godoc
 // @Summary Get roads and courorts with details
+// @Tags Courort
 // @Produce  json
 // @Success 200 {object} []model.Courort
 // @Failure 500 {object} model.Response
-// @Router /courort/roads_and_courorts [get]
+// @Router /courorts/roads_and_courorts [get]
 func (srv *Service) GetRoadsAndCourorts(ctx *gin.Context) {
 	res := srv.DB.GetRoadsAndCourorts()
 	ctx.JSON(http.StatusOK, res)
@@ -186,11 +215,12 @@ func (srv *Service) GetRoadsAndCourorts(ctx *gin.Context) {
 
 // GetCour godoc
 // @Summary Get specified courort
+// @Tags Courort
 // @Produce  json
 // @Success 200 {object} []model.Courorts
 // @Failure 500 {object} model.Response
 // @Param cour path string true "cour"
-// @Router /courort/{cour} [get]
+// @Router /courorts/{cour} [get]
 func (srv *Service) GetCour(ctx *gin.Context) {
 	body := ctx.Params.ByName("cour")
 	courort, err := srv.DB.GetCourort(body)
@@ -205,14 +235,22 @@ func (srv *Service) GetCour(ctx *gin.Context) {
 
 // AddComment godoc
 // @Summary Adds comment to database
+// @Tags Comment
 // @Accept json
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param request body model.Comment true "Coments's text and IDCourort and text"
-// @Router /comment/ [post]
+// @Router /comments/ [post]
 func (srv *Service) AddComment(ctx *gin.Context) {
 	var com model.Comment
+	token := ctx.GetHeader("auth")
+	key := srv.Auth.SigningKey
+	verified, err := auth.ParseToken(token, key)
+	if !verified {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid access token"})
+		return
+	}
 	jsonData, err := ioutil.ReadAll(ctx.Request.Body)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
@@ -235,12 +273,13 @@ func (srv *Service) AddComment(ctx *gin.Context) {
 
 // GetComments godoc
 // @Summary Get comment to specified courort
+// @Tags Comment
 // @Accept json
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param cour path integer true "cour"
-// @Router /comment/{cour} [get]
+// @Router /comments/{cour} [get]
 func (srv *Service) GetComments(ctx *gin.Context) {
 	var err error
 	var com model.Comment
@@ -261,19 +300,24 @@ func (srv *Service) GetComments(ctx *gin.Context) {
 
 // DeleteComment godoc
 // @Summary Delete specified comment
+// @Tags Comment
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param text path string true "text"
 // @Param email path string true "email"
 // @Param id_cour path string true "id_cour"
-// @Router /comment/{text}/{email}/{id_cour} [post]
+// @Router /comments/{id_comment} [post]
 func (srv *Service) DeleteComment(ctx *gin.Context) {
-	var err error
 	var com model.Comment
-	com.Text = ctx.Params.ByName("text")
-	com.Email = ctx.Params.ByName("email")
-	com.IDCourort, err = strconv.Atoi(ctx.Params.ByName("id_cour"))
+	token := ctx.GetHeader("auth")
+	key := srv.Auth.SigningKey
+	verified, err := auth.ParseToken(token, key)
+	if !verified {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid access token"})
+		return
+	}
+	com.Text = ctx.Params.ByName("comment_id")
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
 		return

@@ -26,13 +26,16 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/comment/": {
+        "/comments/": {
             "post": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Comment"
                 ],
                 "summary": "Adds comment to database",
                 "parameters": [
@@ -62,13 +65,16 @@ var doc = `{
                 }
             }
         },
-        "/comment/{cour}": {
+        "/comments/{cour}": {
             "get": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Comment"
                 ],
                 "summary": "Get comment to specified courort",
                 "parameters": [
@@ -96,10 +102,13 @@ var doc = `{
                 }
             }
         },
-        "/comment/{text}/{email}/{id_cour}": {
+        "/comments/{id_comment}": {
             "post": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Comment"
                 ],
                 "summary": "Delete specified comment",
                 "parameters": [
@@ -141,10 +150,13 @@ var doc = `{
                 }
             }
         },
-        "/courort/courorts": {
+        "/courorts/": {
             "get": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Courort"
                 ],
                 "summary": "get list of courorts",
                 "responses": {
@@ -166,10 +178,13 @@ var doc = `{
                 }
             }
         },
-        "/courort/roads_and_courorts": {
+        "/courorts/roads_and_courorts": {
             "get": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Courort"
                 ],
                 "summary": "Get roads and courorts with details",
                 "responses": {
@@ -191,10 +206,13 @@ var doc = `{
                 }
             }
         },
-        "/courort/{cour}": {
+        "/courorts/{cour}": {
             "get": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Courort"
                 ],
                 "summary": "Get specified courort",
                 "parameters": [
@@ -225,13 +243,42 @@ var doc = `{
                 }
             }
         },
-        "/user": {
+        "/users/": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Adds user to database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.User"
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "User"
                 ],
                 "summary": "Adds user to database",
                 "parameters": [
@@ -267,47 +314,16 @@ var doc = `{
                 }
             }
         },
-        "/user/change_role/{email}": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Changes role of user",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "email",
-                        "name": "email",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/login": {
+        "/users/login": {
             "post": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "User"
                 ],
                 "summary": "Checks if user can login",
                 "parameters": [
@@ -343,12 +359,27 @@ var doc = `{
                 }
             }
         },
-        "/user/users": {
-            "get": {
+        "/users/role/{email}": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Adds user to database",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Changes role of user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -359,19 +390,19 @@ var doc = `{
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.User"
-                            }
+                            "$ref": "#/definitions/model.Response"
                         }
                     }
                 }
             }
         },
-        "/user/{email}": {
+        "/users/{email}": {
             "delete": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "User"
                 ],
                 "summary": "Delete user from database",
                 "parameters": [
@@ -404,6 +435,9 @@ var doc = `{
         "model.Comment": {
             "type": "object",
             "properties": {
+                "comment_id": {
+                    "type": "integer"
+                },
                 "email": {
                     "type": "string"
                 },

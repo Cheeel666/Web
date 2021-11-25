@@ -23,7 +23,6 @@ const configPath = "config/config.json"
 
 // @host localhost:5005
 // @BasePath /api/v1
-
 func main() {
 	cfg, err := config.ParseConfig(configPath)
 	if err != nil {
@@ -40,8 +39,8 @@ func main() {
 	service.Auth = *auth.NewAuthorizer(
 		service.DB,
 		viper.GetString("auth.hash_salt"),
-		[]byte(viper.GetString("auth.signing_key")),
-		viper.GetDuration("auth.token_ttl")*time.Second,
+		[]byte(cfg.SignKey),
+		20*time.Minute,
 	)
 	logrus.Info("Connected to DB")
 	listenErr := make(chan error, 1)

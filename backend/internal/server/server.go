@@ -24,27 +24,27 @@ func SetupServer(cfg *config.Config, service handlers.Service) *gin.Engine {
 
 	api := r.Group("/api/v1")
 	{
-		user := api.Group("/user")
+		user := api.Group("/users")
 		{
 			user.POST("/", service.AddUser)
 			user.DELETE("/:email", service.DeleteUser)
-			user.PATCH("/change_role/:email", service.MakeMod)
-			user.GET("/users", service.GetUsers)
+			user.PATCH("/role/:email", service.MakeMod)
+			user.GET("/", service.GetUsers)
 			user.POST("/login", service.Login)
 		}
 
-		courort := api.Group("/courort")
+		courort := api.Group("/courorts")
 		{
-			courort.GET("/courorts", service.GetCourorts)                   //get_courorts
+			courort.GET("/", service.GetCourorts)                           //get_courorts
 			courort.GET("/roads_and_courorts", service.GetRoadsAndCourorts) //get_roads_and_courorts
 			courort.GET("/:cour", service.GetCour)
 		}
 
-		comment := api.Group("/comment")
+		comment := api.Group("/comments")
 		{
-			comment.POST("/", service.AddComment)                           // add_comment
-			comment.DELETE("/:text/:email/:id_cour", service.DeleteComment) //delete_comment
-			comment.GET("/:cour", service.GetComments)                      //get_comments
+			comment.POST("/", service.AddComment)                 // add_comment
+			comment.DELETE("/:comment_id", service.DeleteComment) //delete_comment
+			comment.GET("/:cour", service.GetComments)            //get_comments
 		}
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}

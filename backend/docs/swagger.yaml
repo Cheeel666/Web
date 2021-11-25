@@ -2,6 +2,8 @@ basePath: /api/v1
 definitions:
   model.Comment:
     properties:
+      comment_id:
+        type: integer
       email:
         type: string
       id_courort:
@@ -54,7 +56,7 @@ info:
   title: SkOpen API
   version: "1.0"
 paths:
-  /comment/:
+  /comments/:
     post:
       consumes:
       - application/json
@@ -77,7 +79,9 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Adds comment to database
-  /comment/{cour}:
+      tags:
+      - Comment
+  /comments/{cour}:
     get:
       consumes:
       - application/json
@@ -99,7 +103,9 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Get comment to specified courort
-  /comment/{text}/{email}/{id_cour}:
+      tags:
+      - Comment
+  /comments/{id_comment}:
     post:
       parameters:
       - description: text
@@ -129,7 +135,27 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Delete specified comment
-  /courort/{cour}:
+      tags:
+      - Comment
+  /courorts/:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Courorts'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: get list of courorts
+      tags:
+      - Courort
+  /courorts/{cour}:
     get:
       parameters:
       - description: cour
@@ -151,23 +177,9 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Get specified courort
-  /courort/courorts:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.Courorts'
-            type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/model.Response'
-      summary: get list of courorts
-  /courort/roads_and_courorts:
+      tags:
+      - Courort
+  /courorts/roads_and_courorts:
     get:
       produces:
       - application/json
@@ -183,7 +195,26 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Get roads and courorts with details
-  /user:
+      tags:
+      - Courort
+  /users/:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      summary: Adds user to database
+      tags:
+      - User
     post:
       consumes:
       - application/json
@@ -210,7 +241,9 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Adds user to database
-  /user/{email}:
+      tags:
+      - User
+  /users/{email}:
     delete:
       parameters:
       - description: email
@@ -230,29 +263,9 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Delete user from database
-  /user/change_role/{email}:
-    patch:
-      consumes:
-      - application/json
-      parameters:
-      - description: email
-        in: path
-        name: email
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/model.Response'
-      summary: Changes role of user
-  /user/login:
+      tags:
+      - User
+  /users/login:
     post:
       consumes:
       - application/json
@@ -279,8 +292,18 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Checks if user can login
-  /user/users:
-    get:
+      tags:
+      - User
+  /users/role/{email}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: email
+        in: path
+        name: email
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -291,8 +314,8 @@ paths:
         "500":
           description: Internal Server Error
           schema:
-            items:
-              $ref: '#/definitions/model.User'
-            type: array
-      summary: Adds user to database
+            $ref: '#/definitions/model.Response'
+      summary: Changes role of user
+      tags:
+      - User
 swagger: "2.0"

@@ -36,6 +36,7 @@ type Courort struct {
 
 // Comment of courort
 type Comment struct {
+	ID        int    `json:"comment_id"`
 	Email     string `json:"email"`
 	Text      string `json:"text"`
 	IDCourort int    `json:"id_courort"`
