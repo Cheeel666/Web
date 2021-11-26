@@ -67,6 +67,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/model.Comment'
+      - description: auth
+        in: header
+        name: auth
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -121,6 +126,11 @@ paths:
       - description: id_cour
         in: path
         name: id_cour
+        required: true
+        type: string
+      - description: auth
+        in: header
+        name: auth
         required: true
         type: string
       produces:
@@ -199,6 +209,12 @@ paths:
       - Courort
   /users/:
     get:
+      parameters:
+      - description: auth
+        in: header
+        name: auth
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -212,7 +228,7 @@ paths:
             items:
               $ref: '#/definitions/model.User'
             type: array
-      summary: Adds user to database
+      summary: Get a list of users
       tags:
       - User
     post:
@@ -249,6 +265,11 @@ paths:
       - description: email
         in: path
         name: email
+        required: true
+        type: string
+      - description: auth
+        in: header
+        name: auth
         required: true
         type: string
       produces:
@@ -302,6 +323,11 @@ paths:
       - description: email
         in: path
         name: email
+        required: true
+        type: string
+      - description: auth
+        in: header
+        name: auth
         required: true
         type: string
       produces:

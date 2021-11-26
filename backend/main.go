@@ -45,7 +45,7 @@ func main() {
 	logrus.Info("Connected to DB")
 	listenErr := make(chan error, 1)
 
-	go server.SetupServer(cfg, service).Run(cfg.Port)
+	go server.SetupServer(cfg, service).Run(":5005")
 	select {
 	case err = <-listenErr:
 		if err != nil {

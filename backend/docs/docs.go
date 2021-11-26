@@ -47,6 +47,13 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/model.Comment"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -131,6 +138,13 @@ var doc = `{
                         "description": "id_cour",
                         "name": "id_cour",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -251,7 +265,16 @@ var doc = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "Adds user to database",
+                "summary": "Get a list of users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -378,6 +401,13 @@ var doc = `{
                         "name": "email",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -411,6 +441,13 @@ var doc = `{
                         "description": "email",
                         "name": "email",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
                         "required": true
                     }
                 ],

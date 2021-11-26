@@ -33,6 +33,13 @@
                         "schema": {
                             "$ref": "#/definitions/model.Comment"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -117,6 +124,13 @@
                         "description": "id_cour",
                         "name": "id_cour",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -237,7 +251,16 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Adds user to database",
+                "summary": "Get a list of users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -364,6 +387,13 @@
                         "name": "email",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -397,6 +427,13 @@
                         "description": "email",
                         "name": "email",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "auth",
+                        "name": "auth",
+                        "in": "header",
                         "required": true
                     }
                 ],
