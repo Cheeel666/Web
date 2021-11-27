@@ -67,9 +67,9 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/model.Comment'
-      - description: auth
+      - description: Authorization
         in: header
-        name: auth
+        name: Authorization
         required: true
         type: string
       produces:
@@ -128,9 +128,9 @@ paths:
         name: id_cour
         required: true
         type: string
-      - description: auth
+      - description: Authorization
         in: header
-        name: auth
+        name: Authorization
         required: true
         type: string
       produces:
@@ -210,9 +210,9 @@ paths:
   /users/:
     get:
       parameters:
-      - description: auth
+      - description: Authorization
         in: header
-        name: auth
+        name: Authorization
         required: true
         type: string
       produces:
@@ -267,9 +267,9 @@ paths:
         name: email
         required: true
         type: string
-      - description: auth
+      - description: Authorization
         in: header
-        name: auth
+        name: Authorization
         required: true
         type: string
       produces:
@@ -325,9 +325,9 @@ paths:
         name: email
         required: true
         type: string
-      - description: auth
+      - description: Authorization
         in: header
-        name: auth
+        name: Authorization
         required: true
         type: string
       produces:

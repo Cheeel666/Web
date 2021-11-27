@@ -36,8 +36,8 @@
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -128,8 +128,8 @@
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -255,8 +255,8 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -390,8 +390,8 @@
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -431,8 +431,8 @@
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }

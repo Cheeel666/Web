@@ -64,10 +64,10 @@ func (srv *Service) AddUser(ctx *gin.Context) {
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param email path string true "email"
-// @Param auth header string true "auth"
+// @Param Authorization header string true "Authorization"
 // @Router /users/{email} [delete]
 func (srv *Service) DeleteUser(ctx *gin.Context) {
-	token := ctx.GetHeader("auth")
+	token := ctx.GetHeader("Authorization")
 	key := srv.Auth.SigningKey
 	verified, err := auth.ParseToken(token, key)
 	if !verified {
@@ -94,10 +94,10 @@ func (srv *Service) DeleteUser(ctx *gin.Context) {
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param email path string true "email"
-// @Param auth header string true "auth"
+// @Param Authorization header string true "Authorization"
 // @Router /users/role/{email} [patch]
 func (srv *Service) MakeMod(ctx *gin.Context) {
-	token := ctx.GetHeader("auth")
+	token := ctx.GetHeader("Authorization")
 	key := srv.Auth.SigningKey
 	verified, err := auth.ParseToken(token, key)
 	if !verified {
@@ -123,10 +123,10 @@ func (srv *Service) MakeMod(ctx *gin.Context) {
 // @Produce  json
 // @Success 200 {object} model.Response
 // @Failure 500 {object} []model.User
-// @Param auth header string true "auth"
+// @Param Authorization header string true "Authorization"
 // @Router /users/ [get]
 func (srv *Service) GetUsers(ctx *gin.Context) {
-	token := ctx.GetHeader("auth")
+	token := ctx.GetHeader("Authorization")
 	key := srv.Auth.SigningKey
 	verified, err := auth.ParseToken(token, key)
 	if !verified {
@@ -244,11 +244,11 @@ func (srv *Service) GetCour(ctx *gin.Context) {
 // @Success 200 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Param request body model.Comment true "Coments's text and IDCourort and text"
-// @Param auth header string true "auth"
+// @Param Authorization header string true "Authorization"
 // @Router /comments/ [post]
 func (srv *Service) AddComment(ctx *gin.Context) {
 	var com model.Comment
-	token := ctx.GetHeader("auth")
+	token := ctx.GetHeader("Authorization")
 	key := srv.Auth.SigningKey
 	verified, err := auth.ParseToken(token, key)
 	if !verified {
@@ -311,11 +311,11 @@ func (srv *Service) GetComments(ctx *gin.Context) {
 // @Param text path string true "text"
 // @Param email path string true "email"
 // @Param id_cour path string true "id_cour"
-// @Param auth header string true "auth"
+// @Param Authorization header string true "Authorization"
 // @Router /comments/{id_comment} [post]
 func (srv *Service) DeleteComment(ctx *gin.Context) {
 	var com model.Comment
-	token := ctx.GetHeader("auth")
+	token := ctx.GetHeader("Authorization")
 	key := srv.Auth.SigningKey
 	verified, err := auth.ParseToken(token, key)
 	if !verified {

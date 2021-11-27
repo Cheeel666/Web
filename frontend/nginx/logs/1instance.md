@@ -12,32 +12,32 @@ Server Port:            8082
 Document Path:          /api/v1/courorts
 Document Length:        52 bytes
 
-Concurrency Level:      8
-Time taken for tests:   1.034 seconds
+Concurrency Level:      10
+Time taken for tests:   0.855 seconds
 Complete requests:      5000
 Failed requests:        0
 Non-2xx responses:      5000
-Total transferred:      1270000 bytes
+Total transferred:      1350000 bytes
 HTML transferred:       260000 bytes
-Requests per second:    4835.53 [#/sec] (mean)
-Time per request:       1.654 [ms] (mean)
-Time per request:       0.207 [ms] (mean, across all concurrent requests)
-Transfer rate:          1199.44 [Kbytes/sec] received
+Requests per second:    5851.33 [#/sec] (mean)
+Time per request:       1.709 [ms] (mean)
+Time per request:       0.171 [ms] (mean, across all concurrent requests)
+Transfer rate:          1542.83 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.3      0       4
-Processing:     0    1   1.0      1      12
-Waiting:        0    1   1.0      1      12
-Total:          0    2   1.1      1      12
+Connect:        0    0   0.6      0      29
+Processing:     1    1   1.4      1      30
+Waiting:        1    1   1.4      1      30
+Total:          1    2   1.5      1      30
 
 Percentage of the requests served within a certain time (ms)
   50%      1
-  66%      1
+  66%      2
   75%      2
   80%      2
-  90%      3
-  95%      4
-  98%      6
-  99%      7
- 100%     12 (longest request)
+  90%      2
+  95%      3
+  98%      4
+  99%      6
+ 100%     30 (longest request)

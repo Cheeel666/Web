@@ -1,5 +1,6 @@
 package main
 
+// Swag: export PATH=$(go env GOPATH)/bin:$PATH
 import (
 	"os"
 	"time"
@@ -45,7 +46,7 @@ func main() {
 	logrus.Info("Connected to DB")
 	listenErr := make(chan error, 1)
 
-	go server.SetupServer(cfg, service).Run(":5005")
+	go server.SetupServer(cfg, service).Run(":5007")
 	select {
 	case err = <-listenErr:
 		if err != nil {

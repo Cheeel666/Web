@@ -50,8 +50,8 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -142,8 +142,8 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -269,8 +269,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -404,8 +404,8 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
@@ -445,8 +445,8 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "auth",
-                        "name": "auth",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
