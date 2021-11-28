@@ -27,6 +27,11 @@
 ![alt text](https://sun9-79.userapi.com/impg/2BjWL_lTw6KzKdKdZCz8KcedPJsmxqmk9UdbwA/HrXaSL_3w8c.jpg?size=1280x700&quality=96&sign=70183586dd968593d10a28aca95e98c8&type=album)
 ## Диаграмма сущностей базы данных
 ![alt text](https://sun9-8.userapi.com/impg/uaV0oW3o3B8zPjyEqur10IwlDVefewDabHy_vQ/Z3AwxLIsPU4.jpg?size=1030x1152&quality=96&sign=a00c4f4eb4aacd11d6a54911fa03fe56&type=album)
+
+# Ссылка на макет в figma
+
+https://www.figma.com/file/wZiTozg6I1r6oEsLLGKSnD/web_lab?node-id=0%3A1
+
 ## Правки к первой лабораторной
 ### Первая сдача (правки):
 + добавить айдишники на ер(добавил диаграму бд, где все наглядно видно), 
