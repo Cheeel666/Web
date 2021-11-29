@@ -28,9 +28,21 @@
 ## Диаграмма сущностей базы данных
 ![alt text](https://sun9-8.userapi.com/impg/uaV0oW3o3B8zPjyEqur10IwlDVefewDabHy_vQ/Z3AwxLIsPU4.jpg?size=1030x1152&quality=96&sign=a00c4f4eb4aacd11d6a54911fa03fe56&type=album)
 
-# Ссылка на макет в figma
+# Ссылка на портрет в figma
 
 https://www.figma.com/file/wZiTozg6I1r6oEsLLGKSnD/web_lab?node-id=0%3A1
+
+# Ссылка на доску настроения
+
+https://www.pinterest.ru/ilchel1992/%D0%B4%D0%BE%D1%81%D0%BA%D0%B0-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B3%D0%BE%D1%80%D1%8B/%D0%B3%D0%BE%D1%80%D1%8B/
+
+# Шаблоны в figma
+
+https://www.figma.com/file/wSa42WG7LVGlFupZ5RC7af/SkOpen-Templates?node-id=17%3A413
+
+# Макет сайта в figma
+
+https://www.figma.com/file/p25DWSneph1ZPDXVCQxsAZ/SkOpen?node-id=0%3A1
 
 ## Правки к первой лабораторной
 ### Первая сдача (правки):
