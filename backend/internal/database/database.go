@@ -3,7 +3,6 @@ package database
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"web/config"
 	"web/internal/model"
 
@@ -181,7 +180,7 @@ func (db *DbConnection) AddComment(com model.Comment) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(id)
+	// fmt.Println(id)
 	_, err = db.conn.Query(`insert into comment (id_user, id_courort, content, likes, visability) values ($1, $2, $3, $4, $5);`,
 		id, com.IDCourort, com.Text, 0, 0,
 	)
